@@ -7,11 +7,18 @@ import org.scalatest.junit.JUnitRunner
 @RunWith(classOf[JUnitRunner])
 class ExampleSuite extends FunSuite {
  
-  test("pop is invoked on a non-empty stack") {
+  test("dies") {
      val active = List((0,0))
      val game = new Game(active)
      
      assert(game.step().isActive((0,0)) === false)
+  }
+  
+  test("stays alive") {
+     val active = List((0,0),(-1,0),(1,0))
+     val game = new Game(active)
+   
+     assert(game.step().isActive((0,0)) === true)
   }
 
 }
