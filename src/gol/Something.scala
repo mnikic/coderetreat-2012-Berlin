@@ -6,9 +6,10 @@ import org.scalatest.junit.JUnitRunner
 
 @RunWith(classOf[JUnitRunner])
 class ExampleSuite extends FunSuite {
+  import Game._
 
   test("lookup neighbours on 0,0") {
-    assert(Game.lookupNeighbours((0, 0)) === Game.neighBouringPositions)
+    assert(lookupNeighbours((0, 0)) === neighBouringPositionDeltas)
   }
 
   test("active should be active") {
@@ -23,7 +24,7 @@ class ExampleSuite extends FunSuite {
     val pos = (0, 0)
     val active = List(pos)
     val game = Game(active)
- 
+
     assert(game.isActive((1, 0)) === false)
     assert(game.step.isActive((1, 0)) === false)
   }
@@ -39,19 +40,19 @@ class ExampleSuite extends FunSuite {
     val active = List((0, 0), (-1, 0), (1, 0))
     val game = Game(active)
     val nextStep = game.step
-    
+
     assert(nextStep.isActive((0, 0)) === true)
     assert(nextStep.isActive((0, -1)) === true)
     assert(nextStep.isActive((0, 1)) === true)
     assert(nextStep.isActive((-1, 0)) === false)
     assert(nextStep.isActive((1, 0)) === false)
   }
-  
+
   test("vertical 3 rotate 90 degrees after a step") {
     val active = List((0, 0), (0, 1), (0, -1))
     val game = Game(active)
     val nextStep = game.step
-    
+
     assert(nextStep.isActive((0, 0)) === true)
     assert(nextStep.isActive((0, -1)) === false)
     assert(nextStep.isActive((0, 1)) === false)
