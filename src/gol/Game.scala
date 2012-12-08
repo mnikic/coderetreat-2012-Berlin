@@ -4,10 +4,10 @@ import Game._
 
 class Game(val state: List[Pos]) {
 
-  private def toActiveNeighbours(list: List[Pos]) = list.map(a => (a, lookupNeighbours(a).filter(state.contains(_))))
+  private def toActiveNeighbours(list: List[Pos]) = list.map(a => (a, lookupNeighbours(a).filter(state.contains(_)))) toMap
 
-  private def pickByRule(list: List[(Pos, List[Pos])])(rule: Rule) = list.filter(ap => rule(ap._2)).map(_._1)
-  
+  private def pickByRule(map: Map[Pos, List[Pos]])(rule: Rule) = map.filter(ap => rule(ap._2)).keys.toList
+
   private val neighboursOfActive = state.flatMap(a => lookupNeighbours(a)).distinct
 
   def step() = {
@@ -25,8 +25,9 @@ class Game(val state: List[Pos]) {
 object Game {
   type Pos = (Int, Int)
   type Rule = List[Pos] => Boolean
-  
-  val neighBouringPositions = List((-1, -1), (-1, 0), (-1, 1), (0, -1), (0, 1), (1, -1), (1, 0), (1, 1))
+
+  val deltas = List(-1, 0, 1)
+  val neighBouringPositions = for (x <- deltas; y <- deltas if !(x == 0 && y == 0)) yield (x, y)
   val allowedActiveNeighbourSize = List(2, 3)
 
   def apply(state: List[Pos]) = new Game(state)
