@@ -1,0 +1,5 @@
+package gol
+
+class Game {
+
+}
